@@ -2,7 +2,7 @@ import asyncio
 import websockets
 
 async def play():
-    uri = "wss://your-app.onrender.com/ws"
+    uri = "wss://gamewithnow.onrender.com/ws"
     async with websockets.connect(uri) as ws:
         while True:
             msg = await ws.recv()
