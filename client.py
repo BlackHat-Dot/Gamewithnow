@@ -14,3 +14,5 @@ async def play():
         print("Result:", result)
 
 asyncio.run(play())
+asyncio.run(play())
+asyncio.run(play())
