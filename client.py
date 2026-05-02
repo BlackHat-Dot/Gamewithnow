@@ -14,8 +14,3 @@ async def play():
         print("Result:", result)
 
 asyncio.run(play())
-jgjg
-gffhf
-hjukj,.hkh
-hkhjkkhkh
-hjkh
