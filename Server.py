@@ -1,43 +1,26 @@
-from fastapi import FastAPI, WebSocket
 import asyncio
+import websockets
 
-app = FastAPI()
+async def handler(ws):
+    print("Client connected")
 
-waiting = None
-lock = asyncio.Lock()
+    server_num = input("Enter your number: ")
+    await ws.send(server_num)          # send first
 
-@app.websocket("/ws")
-async def ws(ws: WebSocket):
-    await ws.accept()
+    client_num = await ws.recv()       # receive second
 
-    global waiting
+    total = int(server_num) + int(client_num)
 
-    async with lock:
-        if waiting is None:
-            waiting = ws
-            await ws.send_text("WAIT")
-            return
-        else:
-            opponent = waiting
-            waiting = None
+    if total % 2 == 0:
+        await ws.send("EVEN")
+    else:
+        await ws.send("ODD")
 
-    # both players ready
-    try:
-        await ws.send_text("SEND")
-        await opponent.send_text("SEND")
+    await asyncio.sleep(1)  # prevent instant close
 
-        n1 = int(await ws.receive_text())
-        n2 = int(await opponent.receive_text())
+async def main():
+    async with websockets.serve(handler, "0.0.0.0", 5000):
+        print("Server running...")
+        await asyncio.Future()  # keep alive
 
-        total = n1 + n2
-        result = "EVEN" if total % 2 == 0 else "ODD"
-
-        await ws.send_text(result)
-        await opponent.send_text(result)
-
-    except:
-        pass
-
-    finally:
-        await ws.close()
-        await opponent.close()
+asyncio.run(main())
