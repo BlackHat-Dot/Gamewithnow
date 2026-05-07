@@ -16,10 +16,3 @@ async def play():
 asyncio.run(play())
 asyncio.run(play())
 asyncio.run(play())
-hfhdfhjmgjg
-vzxxvdxv
-vjjgggj
-hbkhbkhknm.m.
-k;k;
-'/lk;l''.
-k;k;klkk;
